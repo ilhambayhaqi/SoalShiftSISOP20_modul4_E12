@@ -49,7 +49,7 @@ void printlog(char* command , int level, char* path){
     timestamp= localtime (&epoch);
     if(level == 0) fprintf(file, "INFO");
     else if (level == 1) fprintf(file, "WARNING");
-    fprintf(file, "::%d%d%d-%d:%d:%d::%s::%s\n", timestamp->tm_year+1900, 
+    fprintf(file, "::%02d%02d%02d-%02d:%02d:%02d::%s::%s\n", (timestamp->tm_year+1900)%100, 
         timestamp->tm_mon, timestamp->tm_mday, timestamp->tm_hour, timestamp->tm_min, timestamp->tm_sec, command ,path + strlen(dirpath));
     fclose(file);
 }
@@ -65,7 +65,7 @@ void printlog2(char* command , int level, char* path, char* path2){
     timestamp= localtime (&epoch);
     if(level == 0) fprintf(file, "INFO");
     else if (level == 1) fprintf(file, "WARNING");
-    fprintf(file, "::%d%d%d-%d:%d:%d::%s::%s::%s\n", timestamp->tm_year+1900, 
+    fprintf(file, "::%02d%02d%02d-%02d:%02d:%02d::%s::%s::%s\n", (timestamp->tm_year+1900)%100, 
         timestamp->tm_mon, timestamp->tm_mday, timestamp->tm_hour, timestamp->tm_min, timestamp->tm_sec, command ,path + strlen(dirpath), path + strlen(dirpath));
     fclose(file);
 }
@@ -78,7 +78,7 @@ void logDatabase(char *fpath){
 
     time(&epoch);
     timestamp= localtime (&epoch);
-    fprintf(file, "ENCRYPTED_FOLDER::%d%d%d-%d:%d:%d::%s\n", timestamp->tm_year+1900, 
+    fprintf(file, "ENCRYPTED_FOLDER::%02d%02d%02d-%02d:%02d:%02d::%s\n", (timestamp->tm_year+1900)%100, 
         timestamp->tm_mon, timestamp->tm_mday, timestamp->tm_hour, timestamp->tm_min, timestamp->tm_sec, fpath + strlen(dirpath));
     fclose(file);
 }
@@ -383,19 +383,6 @@ int main(int argc, char *argv[])
 {
     umask(0);
     mapping();
-
-    char* hehe = "/encv1_2/sadaa";
-    char* hehe2 = "/asSencv1_2SAAs/sadaa";
-    char* hehe3 = "/encv1_2";
-    
-    if(isEncryptName(hehe)) printf("yeay\n");
-    else printf("Nah\n");
-
-    if(isEncryptName(hehe2)) printf("yeay\n");
-    else printf("Nah\n");
-
-    if(isEncryptName(hehe3)) printf("yeay\n");
-    else printf("Nah\n");
     
     return fuse_main(argc, argv, &xmp_oper, NULL);
 }
