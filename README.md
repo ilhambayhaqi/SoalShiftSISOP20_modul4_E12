@@ -138,6 +138,10 @@ void logDatabase(char *fpath){
 }
 
 ```
+
+![Screenshot from 2020-05-02 20-56-30](https://user-images.githubusercontent.com/57692117/80866270-f37a3e00-8cb7-11ea-9fc0-1ab0d85fad3d.png)
+![Screenshot from 2020-05-02 20-58-02](https://user-images.githubusercontent.com/57692117/80866271-f5440180-8cb7-11ea-952e-bd0918aa924c.png)
+
 ## Soal 1.4
 Untuk mencatat log yang ada, maka dibuat fungsi printlog() dan printlog2(). Kedua fungsi ini sebenarnya sama, hanya saja pada printlog2() memiliki parameter input 2 path dimana printlog2() akan menangani catatan log dengan 2 parameter path seperti pada move (rename). Untuk waktunya menggunakan localtime yang diconvert pada struct tm. Untuk levelnya akan bernilai “INFO” bila 0 dan akan bernilai “WARNING” bila 1.  Untuk implementasinya sebagai berikut.
 ```
@@ -191,7 +195,7 @@ static int xmp_unlink(const char *path)
 }
 
 ```
-
+![Screenshot from 2020-05-02 20-59-21](https://user-images.githubusercontent.com/57692117/80866274-f6752e80-8cb7-11ea-8a2a-db1a4ea87c15.png)
 
 Kendala :
 1. Sudah, tetapi masih memungkinkan bug
