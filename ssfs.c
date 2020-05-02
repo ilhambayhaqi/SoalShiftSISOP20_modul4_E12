@@ -50,7 +50,7 @@ void printlog(char* command , int level, char* path){
     if(level == 0) fprintf(file, "INFO");
     else if (level == 1) fprintf(file, "WARNING");
     fprintf(file, "::%02d%02d%02d-%02d:%02d:%02d::%s::%s\n", (timestamp->tm_year+1900)%100, 
-        timestamp->tm_mon, timestamp->tm_mday, timestamp->tm_hour, timestamp->tm_min, timestamp->tm_sec, command ,path + strlen(dirpath));
+        timestamp->tm_mon+1, timestamp->tm_mday, timestamp->tm_hour, timestamp->tm_min, timestamp->tm_sec, command ,path + strlen(dirpath));
     fclose(file);
 }
 
@@ -66,7 +66,7 @@ void printlog2(char* command , int level, char* path, char* path2){
     if(level == 0) fprintf(file, "INFO");
     else if (level == 1) fprintf(file, "WARNING");
     fprintf(file, "::%02d%02d%02d-%02d:%02d:%02d::%s::%s::%s\n", (timestamp->tm_year+1900)%100, 
-        timestamp->tm_mon, timestamp->tm_mday, timestamp->tm_hour, timestamp->tm_min, timestamp->tm_sec, command ,path + strlen(dirpath), path + strlen(dirpath));
+        timestamp->tm_mon+1, timestamp->tm_mday, timestamp->tm_hour, timestamp->tm_min, timestamp->tm_sec, command ,path + strlen(dirpath), path2 + strlen(dirpath));
     fclose(file);
 }
 
@@ -79,7 +79,7 @@ void logDatabase(char *fpath){
     time(&epoch);
     timestamp= localtime (&epoch);
     fprintf(file, "ENCRYPTED_FOLDER::%02d%02d%02d-%02d:%02d:%02d::%s\n", (timestamp->tm_year+1900)%100, 
-        timestamp->tm_mon, timestamp->tm_mday, timestamp->tm_hour, timestamp->tm_min, timestamp->tm_sec, fpath + strlen(dirpath));
+        timestamp->tm_mon+1, timestamp->tm_mday, timestamp->tm_hour, timestamp->tm_min, timestamp->tm_sec, fpath + strlen(dirpath));
     fclose(file);
 }
 
@@ -311,6 +311,7 @@ static int xmp_rename(const char *from, const char *to)
     }
 
     res = rename(from_fpath, to_fpath);
+    printf("to_fpath nya : %s\n", to_fpath);
     if(res == -1)
         return -errno;
     printlog2("RENAME", 0, from_fpath, to_fpath);
