@@ -138,8 +138,59 @@ void logDatabase(char *fpath){
 }
 
 ```
-
 ## Soal 1.4
+Untuk mencatat log yang ada, maka dibuat fungsi printlog() dan printlog2(). Kedua fungsi ini sebenarnya sama, hanya saja pada printlog2() memiliki parameter input 2 path dimana printlog2() akan menangani catatan log dengan 2 parameter path seperti pada move (rename). Untuk waktunya menggunakan localtime yang diconvert pada struct tm. Untuk levelnya akan bernilai “INFO” bila 0 dan akan bernilai “WARNING” bila 1.  Untuk implementasinya sebagai berikut.
+```
+void printlog(char* command , int level, char* path){
+    FILE* file;
+    file = fopen("/home/almond/fs.log", "a+");
+    time_t epoch;
+    struct tm* timestamp;
+
+    time(&epoch);
+    timestamp= localtime (&epoch);
+    if(level == 0) fprintf(file, "INFO");
+    else if (level == 1) fprintf(file, "WARNING");
+    fprintf(file, "::%02d%02d%02d-%02d:%02d:%02d::%s::%s\n", (timestamp->tm_year+1900)%100, 
+        timestamp->tm_mon+1, timestamp->tm_mday, timestamp->tm_hour, timestamp->tm_min, timestamp->tm_sec, command ,path + strlen(dirpath));
+    fclose(file);
+}
+
+
+void printlog2(char* command , int level, char* path, char* path2){
+    FILE* file;
+    file = fopen("/home/almond/fs.log", "a+");
+    time_t epoch;
+    struct tm* timestamp;
+
+    time(&epoch);
+    timestamp= localtime (&epoch);
+    if(level == 0) fprintf(file, "INFO");
+    else if (level == 1) fprintf(file, "WARNING");
+    fprintf(file, "::%02d%02d%02d-%02d:%02d:%02d::%s::%s::%s\n", (timestamp->tm_year+1900)%100, 
+        timestamp->tm_mon+1, timestamp->tm_mday, timestamp->tm_hour, timestamp->tm_min, timestamp->tm_sec, command ,path + strlen(dirpath), path2 + strlen(dirpath));
+    fclose(file);
+}
+
+```
+
+Untuk pemanggilan fungsi ini dilakukan pada setiap fungsi pada fuse dan untuk level akan bernilai 1 pada fungsi rmdir dan unlink. Untuk contohnya sebagai berikut.
+```
+static int xmp_mkdir(const char *path, mode_t mode)
+{
+    ...
+    printlog("MKDIR", 0, fpath);
+    return 0;
+}
+
+static int xmp_unlink(const char *path)
+{
+    ...
+    printlog("UNLINK", 1, fpath);
+    return 0;
+}
+
+```
 
 
 Kendala :
